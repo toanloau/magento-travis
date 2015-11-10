@@ -12,7 +12,7 @@ matrix:
 
 env:
   matrix:
-    - MAGENTO_VERSION="magento-ce-1.9.1.0"
+    - MAGENTO_VERSION="magento-ce-1.9.2.2"
     - MAGENTO_VERSION="magento-ce-1.9.0.1"
     - MAGENTO_VERSION="magento-ce-1.8.1.0"
     - MAGENTO_VERSION="magento-ce-1.8.0.0"
@@ -22,16 +22,6 @@ env:
     - MAGENTO_VERSION="magento-mirror-1.4.2.0"
   global:
     - secure: "....."
-
-install:
-  - if [[ $TRAVIS_PHP_VERSION = '5.6' && $MAGENTO_VERSION = 'magento-ce-1.9.1.0' ]]; then export PHPUNIT_COVERAGE_ENABLE=1; fi
-  - echo "USE mysql;\nUPDATE user SET password=PASSWORD('password') WHERE user='root';\nFLUSH PRIVILEGES;\n" | mysql -u root
-  - bash develop/travis/install-composer.sh $TRAVIS_BUILD_DIR/develop
-  - bash develop/travis/install-apache.sh $TRAVIS_BUILD_DIR
-  - bash develop/travis/install-selenium-server.sh
-  - bash develop/travis/install-magento.sh --release-path=$TRAVIS_BUILD_DIR --magento-db-dbpass='password'
-  - bash develop/apply-patchs.sh $TRAVIS_BUILD_DIR
-
 script: bin/phpunit
 
 after_script:
